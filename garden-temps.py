@@ -18,18 +18,18 @@ def main():
     print(f'garden-temps sending temp data to {MQTT_BROKER}')
 
     client = mqtt.Client()
-    client.username_pw_set(MQTT_USER, MQTT_PWD)
+    # client.username_pw_set(MQTT_USER, MQTT_PWD)
     client.connect(MQTT_BROKER)
     client.loop_start()
     while True:
+        print('tick')
+
         for file in os.listdir(DEVICE_PATH):
             device_path = os.path.join(DEVICE_PATH, file)
             device_path = os.path.join(device_path, 'w1_slave')
             temp = read_temp(device_path)
             event_name = file
             client.publish(event_name, temp)
-
-        print('tick')
 
         time.sleep(int(INTERVAL_S))
 
