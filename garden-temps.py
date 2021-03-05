@@ -25,12 +25,9 @@ def main():
         print('tick')
 
         for file in os.listdir(DEVICE_PATH):
-            print(file)
             device_path = os.path.join(DEVICE_PATH, file)
-            print(device_path)
-            if (os.path.isdir(device_path)):
-                device_path = os.path.join(device_path, 'w1_slave')
-                print(device_path)
+            device_path = os.path.join(device_path, 'w1_slave')
+            if (os.path.isfile(device_path)):                
                 temp = read_temp(device_path)
                 event_name = file
                 client.publish('temperature', f'{file},{temp}')
