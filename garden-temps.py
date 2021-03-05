@@ -9,11 +9,11 @@ def read_temp(device_path):
     return float(data[1].split("t=")[1]) / 1000.0 * 9/5 + 32
 
 def main():
-    MQTT_USER = os.environ('MQTT_USER')
-    MQTT_PWD = os.environ('MQTT_PWD')
-    MQTT_BROKER = os.environ('MQTT_BROKER') # server name
-    DEVICE_PATH = os.environ('DEVICE_PATH') # e.g. /sys/bus/w1/devices/
-    INTERVAL_S = os.environ('INTERVAL_S') # seconds
+    MQTT_USER = os.getenv('MQTT_USER')
+    MQTT_PWD = os.getenv('MQTT_PWD')
+    MQTT_BROKER = os.getenv('MQTT_BROKER') # server name
+    DEVICE_PATH = os.getenv('DEVICE_PATH') # e.g. /sys/bus/w1/devices/
+    INTERVAL_S = os.getenv('INTERVAL_S') # seconds
 
     client = mqtt.Client()
     client.username_pw_set(MQTT_USER, MQTT_PWD)
@@ -26,7 +26,7 @@ def main():
             temp = read_temp(device_path)
             event_name = file
             client.publish(event_name, temp)
-                        
+
         time.sleep(int(INTERVAL_S))
 
 main()
