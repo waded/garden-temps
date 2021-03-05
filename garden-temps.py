@@ -15,6 +15,8 @@ def main():
     DEVICE_PATH = os.getenv('DEVICE_PATH') # e.g. /sys/bus/w1/devices/
     INTERVAL_S = os.getenv('INTERVAL_S') # seconds
 
+    print(f'garden-temps sending temp data to {MQTT_BROKER}')
+
     client = mqtt.Client()
     client.username_pw_set(MQTT_USER, MQTT_PWD)
     client.connect(MQTT_BROKER)
@@ -26,6 +28,8 @@ def main():
             temp = read_temp(device_path)
             event_name = file
             client.publish(event_name, temp)
+
+        print('tick')
 
         time.sleep(int(INTERVAL_S))
 
