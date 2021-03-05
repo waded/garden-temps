@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import os
 import time
 import paho.mqtt.client as mqtt
@@ -7,7 +7,7 @@ def read_temp(device_path):
     file = open(device_path, 'r')
     data = file.readlines()
     file.close()
-    return round(float(data[1].split("t=")[1]) / 1000.0 * 9/5 + 32, 2)
+    return round(float(data[1].split("t=")[1]) / 1000.0 * 9.0/5.0 + 32, 1)
 
 def main():
     MQTT_BROKER = os.getenv('MQTT_BROKER') # e.g. hostname/IP
@@ -21,7 +21,7 @@ def main():
     client.loop_start()
     while True:
         print('tick')
-        now = datetime.datetime.now()
+        now = datetime.now().isoformat(timespec='seconds')
 
         for file in os.listdir(DEVICE_PATH):
             device_path = os.path.join(DEVICE_PATH, file)
