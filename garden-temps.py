@@ -21,7 +21,7 @@ def main():
     client.loop_start()
     while True:
         print('tick')
-        time = datetime.datetime.now()
+        now = datetime.datetime.now()
 
         for file in os.listdir(DEVICE_PATH):
             device_path = os.path.join(DEVICE_PATH, file)
@@ -29,7 +29,7 @@ def main():
             if (os.path.isfile(device_path)):
                 temp = read_temp(device_path)
                 event_name = file            
-                client.publish('temperature', f'{time},{file},{temp}')
+                client.publish('temperature', f'{now},{file},{temp}')
 
         time.sleep(int(INTERVAL_S))
 
