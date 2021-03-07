@@ -14,31 +14,37 @@ def read_temp(device_file):
     return round(temp_f, 1)
 
 def main():     
-    MQTT_BROKER = os.getenv('MQTT_BROKER') # e.g. hostname or IP
-    DEVICE_PATH = os.getenv('DEVICE_PATH') # typ. /sys/bus/w1/devices/
-    INTERVAL = os.getenv('INTERVAL') # in seconds
+    MQTT_BROKER = os.getenv('MQTT_BROKER') # e.g. hostname or IP    
+    MQTT_PORT = int(os.getenv('MQTT_PORT', '1883'))
+    MQTT_USERNAME = os.getenv('MQTT_USERNAME')
+    MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
+    MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'garden-temps')
+    DEVICE_PATH = os.getenv('DEVICE_PATH', '/sys/bus/w1/devices/')
+    INTERVAL = int(os.getenv('INTERVAL', '60'))
 
-    print(f'connecting to {MQTT_BROKER}')
+    print(f'connecting to {MQTT_BROKER}:{MQTT_PORT}')
 
     client = mqtt.Client()
-    client.connect(MQTT_BROKER)
+    if MQTT_USERNAME is not None:
+        client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
+    client.connect(MQTT_BROKER, port=MQTT_PORT)
     client.loop_start()
 
-    print(f'sending data to {MQTT_BROKER}')
+    print(f'sending to -h {MQTT_BROKER}:{MQTT_PORT} -t {MQTT_TOPIC}')
 
     while True:
         now = datetime.now().isoformat(timespec='seconds')
 
-        print(f'tick:{now}')
+        print(f'tick: {now}')
 
         for f in os.listdir(DEVICE_PATH):
             device_file = os.path.join(DEVICE_PATH, f, 'w1_slave')
             if (os.path.isfile(device_file)):
                 temp = read_temp(device_file)
-                event_name = f'garden-temps/{f}'
+                topic = f'{MQTT_TOPIC}'
                 message = f'{f},{now},{temp}'
-                client.publish(event_name, message)
+                client.publish(topic, message)
 
-        time.sleep(int(INTERVAL))
+        time.sleep(INTERVAL)
 
 main()

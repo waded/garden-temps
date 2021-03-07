@@ -22,12 +22,15 @@ I used this to survey soil temperatures through the day in garden boxes, to sati
 Required environment variables:
 
 - MQTT_BROKER: hostname or IP of an MQTT broker
-- DEVICE_PATH: typically `/sys/bus/w1/devices/`
-- INTERVAL: number of seconds to sleep between sensor sweeps
 
 Optional:
 
-- None. (No, no support for MQTT authentication yet.)
+- MQTT_USERNAME
+- MQTT_PASSWORD
+- MQTT_PORT: if default `1883` isn't desired
+- MQTT_TOPIC: if default `garden-temps` isn't desired
+- INTERVAL: the number of seconds to wait between sensor sweeps, if default `60` isn't desired
+- DEVICE_PATH: if typical default `/sys/bus/w1/devices/` isn't desired
 
 ## Usage example
 
@@ -36,10 +39,8 @@ Let's say I'm running [mosquitto](https://mosquitto.org/) on 192.168.0.10 on def
 When running the container on a Pi on this subnet, I set environment variables:
 
 - MQTT_BROKER: `192.168.0.10`
-- DEVICE_PATH: `/sys/bus/w1/devices/`
-- INTERVAL: `60`
 
-Now I `mosquitto_sub -t garden-temps/# -h 192.168.0.10` and every 60 seconds with 5 sensors connected I receive messages like:
+Now I `mosquitto_sub -t garden-temps -h 192.168.0.10` and every 60 seconds with 5 sensors connected I receive messages like:
 
     28-01204bcb1a00,2021-03-07T01:39:09,65.5
     28-01204c9fb29c,2021-03-07T01:39:09,65.4
