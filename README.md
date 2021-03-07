@@ -4,7 +4,7 @@ Service to publish tempeatures from DS18B20 sensors attached to a Raspberry Pi's
 
 ## Assumptions
 
-- You've learned to enable one-wire on the Pi, and wired up 1 or more DS18B20s to the configured pin and no other one-wire devices (tip: `dtoverlay=w1-gpio`, and the default pin's GPIO 4. You also need 3v3 power and ground. https://pinout.xyz is helpful as a reminder where these are. You may want a 4.7K resistor between the signal and power, unless you've enabled built-in pull-up, which I never bother trying since I have the resistors.)
+- You've learned to enable one-wire on the Pi, and wired up 1 or more DS18B20s to the configured pin and no other one-wire devices (tip: `dtoverlay=w1-gpio`, and the default pin's GPIO 4. You also need 3v3 power and ground. <https://pinout.xyz> is helpful as a reminder where these are. You may want a 4.7K resistor between the signal and power, unless you've enabled built-in pull-up, which I never bother trying since I have the resistors.)
 - You've learned how to identify each sensor's ID (tip: `ls /sys/bus/w1/devices/`)
 - You've learned to run containers on your Pi (tip: you can go deep on this, but Balena Cloud makes everything else about this super easy - click-flash-click-deploy-easy. [Like this.](https://dashboard.balena-cloud.com/deploy) Don't forget about enabling w1-gpio if needed with the balenaOS version used.)
 
