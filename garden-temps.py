@@ -11,15 +11,10 @@ def read_temp(device_file):
     temp_f = temp_c * 9.0/5.0 + 32
     return round(temp_f, 1)
 
-def main():
-     # e.g. hostname or IP
-    MQTT_BROKER = os.getenv('MQTT_BROKER')
-
-    # typ. /sys/bus/w1/devices/
-    DEVICE_PATH = os.getenv('DEVICE_PATH')
-
-    # in seconds
-    INTERVAL_S = os.getenv('INTERVAL_S')
+def main():     
+    MQTT_BROKER = os.getenv('MQTT_BROKER') # e.g. hostname or IP
+    DEVICE_PATH = os.getenv('DEVICE_PATH') # typ. /sys/bus/w1/devices/
+    INTERVAL = os.getenv('INTERVAL') # in seconds
 
     print(f'connecting to {MQTT_BROKER}')
 
@@ -42,6 +37,6 @@ def main():
                 message = f'{f},{now},{temp}'
                 client.publish(event_name, message)
 
-        time.sleep(int(INTERVAL_S))
+        time.sleep(int(INTERVAL))
 
 main()
