@@ -4,6 +4,13 @@ Service to publish temperatures from DS18B20 sensors attached to a Raspberry Pi'
 
 I used this to survey soil temperatures through the day in garden boxes, to satisfy curiousity about how much it varied, and how it compared to weather and the amount of sun each box gets.
 
+> Wade: ... I'm going to build these different gardens, with boxes, and it'll all be drip-lined with a lot of sensors. You
+> know, like ancient Egypt."
+> 
+> Someone: "You drew up plans for this?"
+> 
+> Wade: "No, no. It's all in my head."
+
 ## Expectations, and tips to get you there
 
 - You've learned to enable one-wire on the Pi. You've wired up 1 or more DS18B20s to the configured pin, and no other one-wire devices (Tips: google `dtoverlay=w1-gpio`, and the default data pin's GPIO 4. <https://pinout.xyz> is helpful as a reminder where GPIO 4 is, 3v3 Power and Ground. You may want a 4.7K resistor between data and power, unless you've enabled built-in pull-up, which I've never tried since I have the resistors.)
