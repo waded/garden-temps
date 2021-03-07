@@ -29,7 +29,7 @@ Optional:
 - MQTT_PASSWORD
 - MQTT_PORT: if default `1883` isn't desired
 - MQTT_TOPIC: if default `garden-temps` isn't desired
-- INTERVAL: the number of seconds to wait between sensor sweeps, if default `60` isn't desired
+- INTERVAL: the number of seconds to wait between sensor sweeps, if default `60` isn't desired. Note that a sweep won't be instantenous - it depends on the number of sensors - so total time for each measurement is INTERVAL + sweep time.
 - DEVICE_PATH: if typical default `/sys/bus/w1/devices/` isn't desired
 
 ## Usage example
@@ -48,7 +48,7 @@ Now I `mosquitto_sub -t garden-temps -h 192.168.0.10` and every 60 seconds with 
     28-01204c68e858,2021-03-07T01:39:09,64.6
     28-01204cb9c15f,2021-03-07T01:39:09,64.5
 
-This is sensor ID, timestamp, temperature in Fahrenheit.
+Each event includes sensor ID, timestamp from device at start of the sweep, and temperature in Fahrenheit.
 
 These could be consumed as-is, or handled and sent to a database, Exceltabase, etc.
 
