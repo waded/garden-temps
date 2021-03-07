@@ -2,7 +2,7 @@
 
 Service to publish temperatures from DS18B20 sensors attached to a Raspberry Pi's one-wire interface to MQTT.
 
-## Expectations
+## Expectations, and tips to get you there
 
 - You've learned to enable one-wire on the Pi. You've wired up 1 or more DS18B20s to the configured pin, and no other one-wire devices. (Tip: `dtoverlay=w1-gpio`, and the default pin's GPIO 4. <https://pinout.xyz> is helpful as a reminder where GPIO 4 is, 3v3 Power and Ground. You may want a 4.7K resistor between signal and power, unless you've enabled built-in pull-up, which I've never tried since I have the resistors.)
 - You've learned to identify each sensor's ID (Tip: `ls /sys/bus/w1/devices/`)
@@ -20,17 +20,17 @@ Optional:
 
 - None. (No, no support for MQTT authentication yet.)
 
-## Example usage
+## Usage example
 
 Let's say I'm running [mosquitto](https://mosquitto.org/) on 192.168.0.10 on default port 1883, no username/password.
 
-When running the container, set environment variables:
+When running the container on a Pi on this subnet, I set environment variables:
 
 - MQTT_BROKER: `192.168.0.10`
 - DEVICE_PATH: `/sys/bus/w1/devices/`
 - INTERVAL: `60`
 
-Now I `mosquitto_sub -t temperature/#` and every 60 seconds with 5 sensors connected I receive messages like:
+Now I `mosquitto_sub -t garden-temps/# -h 192.168.0.10` and every 60 seconds with 5 sensors connected I receive messages like:
 
     28-01204bcb1a00,2021-03-07T01:39:09,65.5
     28-01204c9fb29c,2021-03-07T01:39:09,65.4
@@ -38,4 +38,10 @@ Now I `mosquitto_sub -t temperature/#` and every 60 seconds with 5 sensors conne
     28-01204c68e858,2021-03-07T01:39:09,64.6
     28-01204cb9c15f,2021-03-07T01:39:09,64.5
 
+This is sensor ID, timestamp, temperature in Fahrenheit.
+
 These could be consumed as-is, or handled and sent to a database, Exceltabase, etc.
+
+## Troubleshooting
+
+If a sensor's not working quite right you'll get 185F (85C, the default value  DS18B20 resets to) or 32F (0C, not sure why that happens.)
