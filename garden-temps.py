@@ -1,7 +1,9 @@
-from datetime import datetime
 import os
 import time
+from datetime import datetime
+
 import paho.mqtt.client as mqtt
+
 
 def read_temp(device_file):
     with open(device_file, 'r') as f:
@@ -33,7 +35,7 @@ def main():
             device_file = os.path.join(DEVICE_PATH, f, 'w1_slave')
             if (os.path.isfile(device_file)):
                 temp = read_temp(device_file)
-                event_name = f'temperature/{f}'
+                event_name = f'garden-temps/{f}'
                 message = f'{f},{now},{temp}'
                 client.publish(event_name, message)
 
