@@ -16,6 +16,7 @@ def read_temp(device_file):
 def main():     
     MQTT_BROKER = os.getenv('MQTT_BROKER') # e.g. hostname or IP    
     MQTT_PORT = int(os.getenv('MQTT_PORT', '1883'))
+    MQTT_CLIENTID = os.getenv('MQTT_CLIENTID')
     MQTT_USERNAME = os.getenv('MQTT_USERNAME')
     MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
     MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'garden-temps')
@@ -24,7 +25,7 @@ def main():
 
     print(f'connecting to {MQTT_BROKER}:{MQTT_PORT}')
 
-    client = mqtt.Client()
+    client = mqtt.Client(client_id=MQTT_CLIENTID)
     if MQTT_USERNAME is not None:
         client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
     client.connect(MQTT_BROKER, port=MQTT_PORT)

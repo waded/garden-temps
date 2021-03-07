@@ -14,7 +14,7 @@ I used this to survey soil temperatures through the day in garden boxes, to sati
 ## Expectations, and tips to get you there
 
 - You've learned to enable one-wire on the Pi. You've wired up 1 or more DS18B20s to the configured pin, and no other one-wire devices (Tips: google `dtoverlay=w1-gpio`, and the default data pin's GPIO 4. <https://pinout.xyz> is helpful as a reminder where GPIO 4 is, 3v3 Power and Ground. You may want a 4.7K resistor between data and power, unless you've enabled built-in pull-up, which I've never tried since I have the resistors.)
-- You've learned to run & manage containers on your Pi (Tip: you can go deep on this, but Balena Cloud makes this, and everything else about operating containers on headless single-board computers super easy - click-flash-click-deploy easy, [like this.](https://dashboard.balena-cloud.com/deploy) Don't forget about enabling w1-gpio if needed with the balenaOS version used.)
+- You've learned to run & manage containers on your Pi (Tip: you can go deep on this, but Balena Cloud makes this, and everything else about operating containers on headless single-board computers super easy - click-flash-click-deploy easy, [like this.](https://dashboard.balena-cloud.com/deploy) Don't forget about enabling w1-gpio module if needed with the balenaOS version used.)
 - You've learned to identify each sensor's ID (Tip: `ls /sys/bus/w1/devices/`)
 
 ## Configuration
@@ -27,10 +27,11 @@ Optional:
 
 - MQTT_USERNAME
 - MQTT_PASSWORD
-- MQTT_PORT: if default `1883` isn't desired
-- MQTT_TOPIC: if default `garden-temps` isn't desired
-- INTERVAL: the number of seconds to wait between sensor sweeps, if default `60` isn't desired. Note that a sweep won't be instantenous - it depends on the number of sensors - so total time for each measurement is INTERVAL + sweep time.
-- DEVICE_PATH: if typical default `/sys/bus/w1/devices/` isn't desired
+- MQTT_CLIENTID: if random client ID isn't desired
+- MQTT_PORT: if `1883` isn't desired
+- MQTT_TOPIC: if `garden-temps` isn't desired
+- INTERVAL: the number of seconds to wait between sensor sweeps, if `60` isn't desired. Note that sweeps aren't instantenous - it depends on number of sensors, quality of signal - so total time for each measurement is INTERVAL + each sweep.
+- DEVICE_PATH: if typical `/sys/bus/w1/devices/` isn't desired
 
 ## Usage example
 
