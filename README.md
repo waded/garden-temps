@@ -31,7 +31,7 @@ Optional:
 - MQTT_CLIENTID: if random client ID isn't desired
 - MQTT_PORT: if `1883` isn't desired
 - MQTT_TOPIC: if `garden-temps` isn't desired as root path of the topic
-- INTERVAL: the number of seconds to wait between sensor sweeps, if `60` isn't desired. Note that sweeps aren't instantenous - it depends on number of sensors, quality of signal - so total time for each measurement is INTERVAL + each sweep.
+- INTERVAL: the number of seconds to wait between sensor sweeps, if `60` isn't desired. Note that sweeps aren't instantaneous - it depends on number of sensors, quality of signal - so total time for each measurement is INTERVAL + each sweep.
 - DEVICE_PATH: if typical `/sys/bus/w1/devices/` isn't desired
 
 ## Usage example
