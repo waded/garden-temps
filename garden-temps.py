@@ -46,11 +46,10 @@ def main():
             device_file = os.path.join(DEVICE_PATH, f, 'w1_slave')
             if (os.path.isfile(device_file)):
                 temp = read_temp(device_file)
-                topic = f'{MQTT_TOPIC}'
-                data = f'{f},{now},{temp}'
-                
-                print(f'reading: {topic}, {data}')
-                client.publish(topic, data)                
+                topic = f'{MQTT_TOPIC}/{f}'
+                data = json.dumps({"sensor": f, "time": now, "temp_F": temp})
+                print(f'{topic}, {data}')
+                client.publish(topic, data)
 
         time.sleep(INTERVAL)
 
