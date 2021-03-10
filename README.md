@@ -27,9 +27,10 @@ Optional:
 
 - MQTT_USERNAME
 - MQTT_PASSWORD
+- MQTT_USETLS: set `True` if TLS is required
 - MQTT_CLIENTID: if random client ID isn't desired
 - MQTT_PORT: if `1883` isn't desired
-- MQTT_TOPIC: if `garden-temps` isn't desired
+- MQTT_TOPIC: if `garden-temps` isn't desired as root path of the topic
 - INTERVAL: the number of seconds to wait between sensor sweeps, if `60` isn't desired. Note that sweeps aren't instantenous - it depends on number of sensors, quality of signal - so total time for each measurement is INTERVAL + each sweep.
 - DEVICE_PATH: if typical `/sys/bus/w1/devices/` isn't desired
 
@@ -41,15 +42,15 @@ When running the container on a Pi on this subnet, I set environment variables:
 
 - MQTT_BROKER: `192.168.0.10`
 
-Now I `mosquitto_sub -t garden-temps -h 192.168.0.10` and every 60 seconds with 5 sensors connected I receive messages like:
+Now I `mosquitto_sub -t garden-temps/# -h 192.168.0.10` and every 60 seconds with 5 sensors connected I receive messages like:
 
-    28-01204bcb1a00,2021-03-07T01:39:09,65.5
-    28-01204c9fb29c,2021-03-07T01:39:09,65.4
-    28-01204c5f8d3c,2021-03-07T01:39:09,65.2
-    28-01204c68e858,2021-03-07T01:39:09,64.6
-    28-01204cb9c15f,2021-03-07T01:39:09,64.5
+    {"sensor": "28-01204bcb1a00", "time": "2021-03-07T01:39:09", "temp_F": 65.5}
+    {"sensor": "28-01204c9fb29c", "time": "2021-03-07T01:39:09", "temp_F": 65.4}
+    {"sensor": "28-01204c5f8d3c", "time": "2021-03-07T01:39:09", "temp_F": 65.2}
+    {"sensor": "28-01204c68e858", "time": "2021-03-07T01:39:09", "temp_F": 64.6}
+    {"sensor": "28-01204cb9c15f", "time": "2021-03-07T01:39:09", "temp_F": 64.5}
 
-Each event includes sensor ID, timestamp from device at start of the sweep, and temperature in Fahrenheit.
+Each message includes the sensor's ID, timestamp from device at start of the sweep, and temperature in Fahrenheit.
 
 These could be consumed as-is, or handled and sent to a database, Exceltabase, etc.
 

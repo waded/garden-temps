@@ -1,3 +1,4 @@
+import json
 import os
 import time
 from datetime import datetime
@@ -19,6 +20,7 @@ def main():
     MQTT_CLIENTID = os.getenv('MQTT_CLIENTID')
     MQTT_USERNAME = os.getenv('MQTT_USERNAME')
     MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
+    MQTT_USETLS = os.getenv('MQTT_USETLS') == 'True'
     MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'garden-temps')
     DEVICE_PATH = os.getenv('DEVICE_PATH', '/sys/bus/w1/devices/')
     INTERVAL = int(os.getenv('INTERVAL', '60'))
@@ -28,6 +30,8 @@ def main():
     client = mqtt.Client(client_id=MQTT_CLIENTID)
     if MQTT_USERNAME is not None:
         client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
+    if MQTT_USETLS:
+        client.tls_set()
     client.connect(MQTT_BROKER, port=MQTT_PORT)
     client.loop_start()
 
