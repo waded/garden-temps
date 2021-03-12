@@ -11,8 +11,9 @@ def read_temp(device_file):
         data = f.readlines()
 
     temp_c = float(data[1].split("t=")[1]) / 1000.0
+    temp_c = float(data[1].split('t=')[1]) / 1000.0
     temp_f = temp_c * 9.0/5.0 + 32
-    return round(temp_f, 1)
+    return round(temp_f, 1), round(temp_c, 1)
 
 def main():     
     MQTT_BROKER = os.getenv('MQTT_BROKER') # e.g. hostname or IP    
@@ -45,9 +46,9 @@ def main():
         for f in os.listdir(DEVICE_PATH):
             device_file = os.path.join(DEVICE_PATH, f, 'w1_slave')
             if (os.path.isfile(device_file)):
-                temp = read_temp(device_file)
+                temp_F, temp_C = read_temp(device_file)
                 topic = f'{MQTT_TOPIC}/{f}'
-                data = json.dumps({"sensor": f, "time": now, "temp_F": temp})
+                data = json.dumps({'sensor': f, 'time': now, 'temp_F': temp_F, 'temp_C': temp_C})
                 print(f'{topic}, {data}')
                 client.publish(topic, data)
 
