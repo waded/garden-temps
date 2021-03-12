@@ -10,7 +10,6 @@ def read_temp(device_file):
     with open(device_file, 'r') as f:
         data = f.readlines()
 
-    temp_c = float(data[1].split("t=")[1]) / 1000.0
     temp_c = float(data[1].split('t=')[1]) / 1000.0
     temp_f = temp_c * 9.0/5.0 + 32
     return round(temp_f, 1), round(temp_c, 1)
