@@ -14,7 +14,7 @@ I used this to survey soil temperatures in garden boxes, to satisfy curiousity a
 ## Expectations, and tips to get you there
 
 - You've learned to enable one-wire on the Pi. You've wired up 1 or more DS18B20s to the configured pin, and no other one-wire devices (Tips: google `dtoverlay=w1-gpio`, and the default data pin's GPIO 4. <https://pinout.xyz> is helpful as a reminder where GPIO 4 is, 3v3 Power and Ground. You may want a 4.7K resistor between data and power, unless you've enabled built-in pull-up, which I've never tried since I have the resistors.)
-- You've learned to run & manage containers on your Pi (Tip: you can go deep on this, but Balena Cloud makes this, and everything else about operating containers on headless single-board computers super easy - click-flash-click-deploy easy, [like this.](https://dashboard.balena-cloud.com/deploy) If you use Balena Cloud/OS, don't forget about enabling w1-gpio using *Define DT overlays* under a device's *Device Configuration*)
+- You've learned to run & manage containers on your Pi (Tip: you can go deep on this, but Balena Cloud makes this, and everything else about operating containers on headless single-board computers, super easy - click-flash-click-deploy easy, [click here easy.](https://dashboard.balena-cloud.com/deploy) If you use Balena Cloud/OS, don't forget about enabling w1-gpio using *Define DT overlays* under a device's *Device Configuration*)
 - You've learned to identify each sensor's ID (Tip: `ls /sys/bus/w1/devices/`)
 
 ## Configuration
