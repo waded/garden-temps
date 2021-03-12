@@ -2,7 +2,7 @@
 
 Service to publish temperatures from DS18B20 sensors attached to a Raspberry Pi's one-wire interface to MQTT.
 
-I used this to survey soil temperatures in garden boxes, to satisfy curiousity about how much those varied, compared to weather, water, and the sun each box gets.
+I used this to survey soil temperatures in garden boxes, to satisfy curiousity about how much those varied, compared to weather, water, and the sun each box gets. I don't usually measure when gardening, but to the extent I don't procrastinate on planting by *supposing* the soil's way too cold - that I procrastinate because I *know* it's way too cold - I feel better!
 
 > Wade: ... I'm going to build these different gardens, with boxes, and it'll all be drip-lined with a lot of sensors. You
 > know, like ancient Egypt."
