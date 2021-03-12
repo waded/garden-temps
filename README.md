@@ -28,10 +28,10 @@ Optional:
 - MQTT_USERNAME
 - MQTT_PASSWORD
 - MQTT_USETLS: set `True` if TLS is required
-- MQTT_CLIENTID: if random client ID isn't desired
-- MQTT_PORT: if `1883` isn't desired
-- MQTT_TOPIC: if `garden-temps` isn't desired as root path of the topic
-- INTERVAL: the number of seconds to wait between sensor sweeps, if `60` isn't desired. Note that sweeps aren't instantaneous - it depends on number of sensors, quality of signal - so total time for each measurement is INTERVAL + each sweep.
+- MQTT_CLIENTID: client ID to use if a random ID isn't desired
+- MQTT_PORT: port number, e.g. secured port `8883`, if `1883` isn't desired
+- MQTT_TOPIC: root path to use for topics, if `garden-temps` isn't desired
+- INTERVAL: number of seconds to wait between sensor sweeps, if `60` isn't desired. Note that sweeps aren't instantaneous - it depends on number of sensors, quality of signal - so total time for each measurement is INTERVAL + each sweep.
 - DEVICE_PATH: if typical `/sys/bus/w1/devices/` isn't desired
 
 ## Usage example
@@ -44,16 +44,16 @@ When running the container on a Pi on this subnet, I set environment variables:
 
 Now I `mosquitto_sub -t garden-temps/# -h 192.168.0.10` and every 60 seconds with 5 sensors connected I receive messages like:
 
-    {"sensor": "28-01204bcb1a00", "time": "2021-03-07T01:39:09", "temp_F": 65.5}
-    {"sensor": "28-01204c9fb29c", "time": "2021-03-07T01:39:09", "temp_F": 65.4}
-    {"sensor": "28-01204c5f8d3c", "time": "2021-03-07T01:39:09", "temp_F": 65.2}
-    {"sensor": "28-01204c68e858", "time": "2021-03-07T01:39:09", "temp_F": 64.6}
-    {"sensor": "28-01204cb9c15f", "time": "2021-03-07T01:39:09", "temp_F": 64.5}
+    {"sensor": "28-01204bcb1a00", "time": "2021-03-07T01:39:09", "temp_F": 33.9, "temp_C": 1.1}
+    {"sensor": "28-01204c9fb29c", "time": "2021-03-07T01:39:09", "temp_F": 35.8, "temp_C": 2.1}
+    {"sensor": "28-01204c5f8d3c", "time": "2021-03-07T01:39:09", "temp_F": 32.6, "temp_C": 0.3}
+    {"sensor": "28-01204c68e858", "time": "2021-03-07T01:39:09", "temp_F": 32.7, "temp_C": 0.4}
+    {"sensor": "28-01204cb9c15f", "time": "2021-03-07T01:39:09", "temp_F": 32.6, "temp_C": 0.3}
 
-Each message includes the sensor's ID, timestamp from device at start of the sweep, and temperature in Fahrenheit.
+Each message includes the sensor's ID, device timestamp at start of the sweep, temperatures in Fahrenheit and Celsius.
 
 These could be consumed as-is, or handled and sent to a database, Exceltabase, etc.
 
 ## Troubleshooting
 
-If a sensor's not working quite right you'll get 185F (85C, the default value  DS18B20 resets to) or 32F (0C, not sure why that happens.)
+If a sensor's not working quite right you'll get 185F/85C (the default value DS18B20 resets to) or 32F/0C (not sure why that happens.)
